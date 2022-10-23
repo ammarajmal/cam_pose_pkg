@@ -44,8 +44,8 @@ def rotationMatrixToEulerAngles(R):
     
 
 marker_size = 100
-
-with open('camera_calib.npy', 'rb') as f:
+path_calib = '/home/ammar/catkin_ws/src/cam_pose_pkg/script/'
+with open(path_calib+'camera_calib.npy', 'rb') as f:
     camera_matrix = np.load(f)
     camera_distortion = np.load(f)
 aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_250)
