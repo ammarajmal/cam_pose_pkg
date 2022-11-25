@@ -13,7 +13,7 @@ import cv2
 
 # Create an object to read
 # from camera
-video = cv2.VideoCapture(0)
+video = cv2.VideoCapture(2)
 
 # We need to check if camera
 # is opened previously or not
