@@ -163,10 +163,57 @@ def play_recorded_video(read_file_name):
     cv2.destroyAllWindows()
 
 
+
+
+def multiple_windows(camera):
+    print(cv2.__version__)
+    cam=cv2.VideoCapture(camera)
+    while True:
+        ignore,  frame = cam.read()
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        cv2.imshow('my WEBcam', frame)
+        cv2.moveWindow('my WEBcam',0,0)
+        cv2.imshow('gray WEBcam', gray)
+        cv2.moveWindow('gray WEBcam',640,0)
+
+        cv2.imshow('my WEBcam2', frame)
+        cv2.moveWindow('my WEBcam2',640,480)
+        cv2.imshow('gray WEBcam2', gray)
+        cv2.moveWindow('gray WEBcam2',0,480)
+        
+        if cv2.waitKey(1) & 0xff ==ord('q'):
+            break
+    cam.release()
+    
+# def smoother_webcam(camera):
+#     print(cv2.__version__)
+#     width = 640
+#     height = 480
+#     cam=cv2.VideoCapture(camera)
+#     # cam=cv2.VideoCapture(camera, CAP_DSHOW)
+#     cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+#     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+#     cam.set(cv2.CAP_PROP_FPS, 30)
+#     # cam.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M','J','P','G'))
+#     pre_time_frame = time.time()
+#     while True:
+#         ignore,  frame = cam.read()
+#         new_time_frame = time.time()
+#         fps = 1/(new_time_frame - pre_time_frame)
+#         pre_time_frame = new_time_frame
+#         fps = int(fps)
+#         cv2.putText(frame, "FPS: "+str(fps), (4,35), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2,  )
+#         cv2.imshow('WEBcam', frame)
+#         cv2.moveWindow('WEBcam',0,0)
+#         if cv2.waitKey(25) & 0xff ==ord('q'):
+#             break
+#     cam.release()
+    
 def fps_calc_vid(file_to_read):
     capture = cv2.VideoCapture(file_to_read)
+
     pre_time_frame = time.time()
-    # new_time_frame = 0
+    
     while capture.isOpened():
         success, frame = capture.read()
         if not success:
@@ -181,11 +228,6 @@ def fps_calc_vid(file_to_read):
             break
     capture.release()
     cv2.destroyAllWindows()
-
-        
-        
-        
-
 if __name__ == '__main__':
     # video_record_mp4(logitech, file_name)
     
@@ -195,6 +237,11 @@ if __name__ == '__main__':
     # pose_recorded_video(file_name)
     
     fps_calc_vid(file_name)
+    
+    # multiple_windows(webcam)
+    # smoother_webcam(file_name)
+    
+        
     
     
     
