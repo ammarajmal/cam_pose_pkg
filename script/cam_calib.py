@@ -5,7 +5,7 @@ import cv2
 import time
 cv2.namedWindow("Camera Calibration")
 cv2.moveWindow("Camera Calibration", 800, 0)
-video_capture = cv2.VideoCapture(2)
+video_capture = cv2.VideoCapture(0)
 
 video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
@@ -19,7 +19,7 @@ while (True):
     ret, frame = video_capture.read()
     frame_count += 1
     if frame_count == 30:
-        pwd_add = '/home/ammar/Desktop/images'
+        pwd_add = '/home/ammar/sitl/cam_pose_pkg/images/'
         cv2.imwrite(str(pwd_add) + "cal_image_"+str(cal_image_count)+".jpg", frame)
         cal_image_count += 1
         frame_count = 0
