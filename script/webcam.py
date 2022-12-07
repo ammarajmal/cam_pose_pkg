@@ -12,10 +12,10 @@ import cv2
 cap = cv2.VideoCapture(0)
 pTime = 0
 while (cap.isOpened()):
-
+    cTime = time.time()
     ret, frame = cap.read()
     if ret == True:
-        cTime = time.time()
+
         fps = int(1/(cTime - pTime))
         cv2.putText(frame, f'FPS: {int(fps)}', (420, 40), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 1), 3)
         cv2.imshow('Frame', frame)

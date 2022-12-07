@@ -85,7 +85,12 @@ while True:
         pitch, roll, yaw = rotationMatrixToEulerAngles(rotation_matrix)
         
         tvec_str = "x=%4.0f y=%4.0f z=%4.0f"%(realworld_tvec[0], realworld_tvec[1], math.degrees(yaw))
-        cv2.putText(frame, tvec_str, (20,460), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), 2, cv2.LINE_AA)
+        # cv2.putText(frame, tvec_str, (20,560), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), 2, cv2.LINE_AA)
+        cv2.putText(frame, tvec_str[:5], (20,460), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), 2, cv2.LINE_AA)
+        cv2.putText(frame, tvec_str[6:14], (120,460), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,0), 2, cv2.LINE_AA)
+        cv2.putText(frame, tvec_str[15:], (220,460), cv2.FONT_HERSHEY_PLAIN, 2, (0,255,0), 2, cv2.LINE_AA)
+        # cv2.putText(frame, tvec_str, (20,460), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), 2, cv2.LINE_AA)
+        # cv2.putText(frame, tvec_str, (20,460), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), 2, cv2.LINE_AA)
         
         
         

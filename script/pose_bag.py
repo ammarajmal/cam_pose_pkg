@@ -45,7 +45,7 @@ def rotationMatrixToEulerAngles(R):
 
 marker_size = 100
 path_calib = '/home/ammar/catkin_ws/src/cam_pose_pkg/script/'
-with open(path_calib+'camera_calib.npy', 'rb') as f:
+with open('camera_calib.npy', 'rb') as f:
     camera_matrix = np.load(f)
     camera_distortion = np.load(f)
 aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_250)
@@ -74,7 +74,7 @@ def publisher():
     pub = rospy.Publisher('pose', Pose, queue_size=1)
     rospy.init_node("Pose_Publisher", anonymous=True)
     rate = rospy.Rate(10) # Hz
-    
+    prev_frame_time = time.time()
     while not rospy.is_shutdown():
         pose_message = Pose()
         
@@ -110,6 +110,7 @@ def publisher():
             # tvec_str = "x=%4.0f y=%4.0f z=%4.0f"%(realworld_tvec[0], realworld_tvec[1], math.degrees(yaw))
             tvec_str = "x=%4.0f y=%4.0f z=%4.0f"%(or_x, or_y, or_z)
             # cv2.putText(frame, tvec_str, (20,460), cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), 2, cv2.LINE_AA)
+            # cv2.imshow('frame', frame)
 
             pose_message.position.x = or_x
             pose_message.position.y = or_y
@@ -121,12 +122,12 @@ def publisher():
             pose_message.orientation.z = 0.0
             pose_message.orientation.w = 1.0
             
-            # cv2.imshow('frame', frame)
+            cv2.imshow('frame', frame)
             
-        # new_frame_time = time.time()
-        # fps = 1/(new_frame_time - prev_frame_time)
-        # prev_frame_time = new_frame_time
-        # cv2.putText(frame, "FPS:" + str(int(fps)), (10, 40), cv2.FONT_HERSHEY_PLAIN, 2, (100, 255, 0), 2, cv2.LINE_AA)
+        new_frame_time = time.time()
+        fps = 1/(new_frame_time - prev_frame_time)
+        prev_frame_time = new_frame_time
+        cv2.putText(frame, "FPS:" + str(int(fps)), (10, 40), cv2.FONT_HERSHEY_PLAIN, 2, (100, 255, 0), 2, cv2.LINE_AA)
 
         pub.publish(pose_message)
         rate.sleep()
