@@ -3,9 +3,9 @@ import numpy as np
 import cv2 as cv
 import glob
 
-cb_width = 8
+cb_width = 9
 cb_height = 6
-cb_square_size = 25.22
+cb_square_size = 24.4
 
 # termination criteria
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -19,7 +19,7 @@ list_cb_3d_points = []  # 3d points in real world
 list_cb_2d_img_points = []  # 2d points in image plane
 
 list_images = glob.glob('*.jpg')
-
+shape_image = []
 for frame_name in list_images:
     img = cv.imread(frame_name)
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -31,12 +31,14 @@ for frame_name in list_images:
         corners2 = cv.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
         list_cb_2d_img_points.append(corners2)
         # Draw adn display the corners
+        shape_image = gray.shape[::-1]
         cv.drawChessboardCorners(img, (cb_width, cb_height), corners2, ret)
         cv.imshow('img', img)
         cv.waitKey(500)
 cv.destroyAllWindows()
 
-ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(list_cb_3d_points, list_cb_2d_img_points, gray.shape[::-1], None, None)
+ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(list_cb_3d_points, list_cb_2d_img_points, (640, 480), None, None)
+
 print('Calibration Matrix: ')
 print(mtx)
 print('Distortion: ', dist)
